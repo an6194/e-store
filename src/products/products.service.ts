@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProductsRepository } from './products.repository';
@@ -29,8 +33,16 @@ export class ProductsService {
   }
 
   async createProduct(input: CreateProductInput) {
-    const category = await this.categoriesService.getCategory(input.category);
+    const category = await this.categoriesService.getCategory(input.categoryId);
 
     return this.productsRepository.createProduct(input, category);
+  }
+
+  getManyProducts(productIds: string[]) {
+    if (!productIds) {
+      throw new BadRequestException('Product list is empty');
+    }
+
+    return this.productsRepository.findByIds(productIds);
   }
 }

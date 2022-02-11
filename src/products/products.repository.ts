@@ -22,7 +22,7 @@ export class ProductsRepository extends Repository<Product> {
     return product;
   }
 
-  async getProducts(filterInput: ProductsFilterInput) {
+  getProducts(filterInput: ProductsFilterInput) {
     const { search } = filterInput;
 
     const query = this.createQueryBuilder('product');
@@ -33,6 +33,6 @@ export class ProductsRepository extends Repository<Product> {
       });
     }
 
-    return await query.getMany();
+    return query.getMany();
   }
 }

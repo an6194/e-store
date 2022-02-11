@@ -20,5 +20,5 @@ export class CreateProductInput {
 
   @IsUUID()
   @Field((type) => ID)
-  category: string;
+  categoryId: string;
 }

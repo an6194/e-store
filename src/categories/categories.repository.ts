@@ -19,7 +19,7 @@ export class CategoriesRepository extends Repository<Category> {
     return category;
   }
 
-  async getCategories(filterInput: CategoriesFilterInput) {
+  getCategories(filterInput: CategoriesFilterInput) {
     const { search } = filterInput;
 
     const query = this.createQueryBuilder('category');
@@ -30,6 +30,6 @@ export class CategoriesRepository extends Repository<Category> {
       });
     }
 
-    return await query.getMany();
+    return query.getMany();
   }
 }

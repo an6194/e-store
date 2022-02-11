@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ProductsModule } from './products/products.module';
 import { configValidationSchema } from './config.schema';
 import { CategoriesModule } from './categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CategoriesModule } from './categories/categories.module';
     GraphQLModule.forRoot({ autoSchemaFile: true }),
     ProductsModule,
     CategoriesModule,
+    OrdersModule,
   ],
 })
 export class AppModule {}
