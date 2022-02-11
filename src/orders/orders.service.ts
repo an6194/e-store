@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OrdersRepository } from './orders.repository';
 import { CreateOrderInput } from './input/create-order.input';
 import { ProductsService } from '../products/products.service';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class OrdersService {
@@ -17,12 +18,12 @@ export class OrdersService {
     private productsService: ProductsService,
   ) {}
 
-  getOrders() {
-    return this.ordersRepository.getOrders();
+  getOrders(user: User) {
+    return this.ordersRepository.getOrders(user);
   }
 
-  async getOrder(id: string) {
-    const order = await this.ordersRepository.findOne(id);
+  async getOrder(id: string, user: User) {
+    const order = await this.ordersRepository.findOne({ id, user });
 
     if (!order) {
       throw new NotFoundException('Order does not exist');
@@ -31,7 +32,7 @@ export class OrdersService {
     return order;
   }
 
-  async createOrder(input: CreateOrderInput) {
+  async createOrder(input: CreateOrderInput, user: User) {
     const products = await this.productsService.getManyProducts(
       input.productIds,
     );
@@ -40,6 +41,6 @@ export class OrdersService {
       throw new BadRequestException();
     }
 
-    return this.ordersRepository.createOrder(products);
+    return this.ordersRepository.createOrder(products, user);
   }
 }
